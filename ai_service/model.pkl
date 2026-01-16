@@ -1,0 +1,26 @@
+import pandas as pd
+import numpy as np
+from sklearn.ensemble import RandomForestClassifier
+import joblib
+
+# 1. Create Synthetic Training Data
+# Features: [avg_reaction_time, accuracy, variance]
+# Label: 0 = Low Risk, 1 = High Risk (ADHD/Dyslexia)
+data = {
+    'avg_reaction_time': [250, 600, 280, 750, 300, 800],
+    'accuracy': [0.95, 0.60, 0.90, 0.55, 0.88, 0.50],
+    'variance': [20, 150, 25, 200, 30, 180],
+    'at_risk': [0, 1, 0, 1, 0, 1] 
+}
+
+df = pd.DataFrame(data)
+X = df[['avg_reaction_time', 'accuracy', 'variance']]
+y = df['at_risk']
+
+# 2. Train the Random Forest
+model = RandomForestClassifier(n_estimators=100)
+model.fit(X, y)
+
+# 3. Save the model as model.pkl
+joblib.dump(model, 'model.pkl')
+print("✅ model.pkl has been created successfully!")
